@@ -1,0 +1,14 @@
+* {
+    box-sizing: border-box;
+    margin: 0 !important;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+}
+
+:root {
+    --primary: #501e50;
+    --sidebar: 25%;
+}
