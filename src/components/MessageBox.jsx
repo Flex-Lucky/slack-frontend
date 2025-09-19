@@ -37,6 +37,11 @@ const MessageBox = (props) => {
 
     const handleInputChange = (e) => {
         let value = e.target.value;
+        if (value == "") {
+            setMessageInfo({ ...messageInfo, mentions: [] });
+            setMentionNames([]);
+            setFilteredOptions([]);
+        }
         if (value.endsWith("@")) {
             if ((reftype == "main" ? mainRef : threadRef).current) {
                 const rect = (reftype == "main" ? mainRef : threadRef).current.getBoundingClientRect();
@@ -66,7 +71,7 @@ const MessageBox = (props) => {
             ...messageInfo,
             mentions: messageInfo.mentions.length
                 ? messageInfo.mentions.includes(option)
-                    ? messageInfo.mentions.filter((receiver) => receiver != option)
+                    ? [...messageInfo.mentions]
                     : [...messageInfo.mentions, option]
                 : [option],
         });
@@ -96,6 +101,7 @@ const MessageBox = (props) => {
         setMessageInfo({ ...messageInfo, message: "", mentions: [], files: [] });
 
         const formData = new FormData();
+        console.log(files);
         files.forEach((file) => {
             formData.append("files", file);
         });
@@ -109,8 +115,8 @@ const MessageBox = (props) => {
     };
 
     return (
-        <VStack w={"95%"} h={"180px"} color={"#000"}  justify={"center"} align={"center"}>
-            <HStack width={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4} _dark={{ bg: "#fff2", color: "#fff"}}>
+        <VStack w={"95%"} h={"180px"} color={"#000"} justify={"center"} align={"center"}>
+            <HStack width={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4} _dark={{ bg: "#fff2", color: "#fff" }}>
                 <Icon>{icons.typeBold}</Icon>
                 <Icon>{icons.typeStrikeThrough}</Icon>
                 <Icon>{icons.typeItalic}</Icon>
@@ -127,11 +133,19 @@ const MessageBox = (props) => {
                 onKeyDown={handleEnter}
                 onChange={handleInputChange}
                 value={message ? message : ""}
-                _dark={{ bg: "#fff5", color: "#fff"}}
+                _dark={{ bg: "#fff5", color: "#fff" }}
                 _focus={{ border: "0.5px solid #0004" }}
                 ref={reftype == "main" ? mainRef : threadRef}
             />
-            <HStack w={"100%"} justify={"space-between"} fontSize={"22px"} bg={"#0001"} p={2} gap={4} _dark={{ bg: "#fff2", color: "#fff"}}>
+            <HStack
+                w={"100%"}
+                justify={"space-between"}
+                fontSize={"22px"}
+                bg={"#0001"}
+                p={2}
+                gap={4}
+                _dark={{ bg: "#fff2", color: "#fff" }}
+            >
                 <HStack gap={4}>
                     <Icon onClick={() => fileRef.current.click()}>{icons.plus}</Icon>
                     <Input ref={fileRef} type={"file"} onChange={handleFile} hidden />
@@ -143,7 +157,17 @@ const MessageBox = (props) => {
                             {allUsers.map((user, index) => {
                                 if (user._id != auth._id) {
                                     return (
-                                        <MenuItem p={2} px={4} key={index} onClick={() => handleOptionClick(user._id, user.username)}>
+                                        <MenuItem
+                                            p={2}
+                                            px={4}
+                                            key={index}
+                                            bg={messageInfo.mentions.includes(user._id) ? "#ddd" : "none"}
+                                            onClick={
+                                                messageInfo.mentions?.includes(user._id)
+                                                    ? () => {}
+                                                    : () => handleOptionClick(user._id, user.username)
+                                            }
+                                        >
                                             <BadgeAvatar src={user.avatar} status={user.status} />
                                             <Text>{user.username}</Text>
                                         </MenuItem>
@@ -191,16 +215,18 @@ const MessageBox = (props) => {
                                     p={2}
                                     pl={6}
                                     gap={3}
-                                    bg={"#fff"}
                                     minW={"200px"}
                                     key={user._id}
                                     display={"flex"}
                                     cursor={"pointer"}
                                     alignItems={"center"}
-                                    color={"var(--primary)"}
                                     _hover={{ bg: "#525e", color: "#fff" }}
+                                    bg={messageInfo.mentions?.includes(user._id) ? "#5c275cff" : "#fff"}
+                                    color={messageInfo.mentions?.includes(user._id) ? "#fff" : "var(--primary)"}
                                     onClick={
-                                        user.mentions?.includes(user._id) ? () => {} : () => handleOptionClick(user._id, user.username)
+                                        messageInfo.mentions?.includes(user._id)
+                                            ? () => {}
+                                            : () => handleOptionClick(user._id, user.username)
                                     }
                                 >
                                     <BadgeAvatar status={user.status} src={user.avatar} />

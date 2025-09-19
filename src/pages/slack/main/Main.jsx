@@ -1,4 +1,4 @@
-import { useContext, useEffect,     useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { VStack } from "@chakra-ui/react";
 
@@ -12,6 +12,8 @@ import { SocketContext } from "src/contexts/SocketProvider";
 const Main = () => {
     const { auth } = useContext(AuthContext);
     const { selectedCurChannel, selectedChMsg, showThread, messageInfo, setMessageInfo } = useContext(SocketContext);
+
+    const [scroll, setScroll] = useState(false);
 
     useEffect(() => {
         if (selectedCurChannel) {
@@ -31,11 +33,21 @@ const Main = () => {
         }
     }, [showThread]);
 
+    const handleScroll = () => {
+        setScroll(true);
+    };
+
     return (
-        <VStack flex={"1 1 0"} bg={"#fff"} _dark={{bg: "#fff3", color: "#fff"}} height={"100%"} rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}>
+        <VStack
+            flex={"1 1 0"}
+            bg={"#fff"}
+            _dark={{ bg: "#fff3", color: "#fff" }}
+            height={"100%"}
+            rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}
+        >
             <MainHeader />
-            <MainNav />
-            <MainContent />
+            <MainNav scroll={scroll} />
+            <MainContent handleScroll={handleScroll} />
             <MessageBox reftype={"main"} />
         </VStack>
     );
