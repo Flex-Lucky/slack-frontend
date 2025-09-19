@@ -32,7 +32,7 @@ const Main = () => {
     }, [showThread]);
 
     return (
-        <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}>
+        <VStack flex={"1 1 0"} bg={"#fff"} _dark={{bg: "#fff3", color: "#fff"}} height={"100%"} rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}>
             <MainHeader />
             <MainNav />
             <MainContent />

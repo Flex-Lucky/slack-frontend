@@ -109,7 +109,7 @@ const MessageBox = (props) => {
     };
 
     return (
-        <VStack w={"95%"} h={"180px"} color={"#000"} justify={"center"} align={"center"}>
+        <VStack w={"95%"} h={"180px"} color={"#000"}  _dark={{ bg: "#fff2", color: "#fff"}} justify={"center"} align={"center"}>
             <HStack width={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4}>
                 <Icon>{icons.typeBold}</Icon>
                 <Icon>{icons.typeStrikeThrough}</Icon>

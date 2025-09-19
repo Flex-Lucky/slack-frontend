@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
-import { HStack, Icon, Input } from "@chakra-ui/react";
+import { HStack, Icon, Input, Box } from "@chakra-ui/react";
 import icons from "src/constants/icons";
+import ColorModeButton from "src/components/ColorModeButton";
 
 const Header = () => {
     return (
@@ -23,6 +24,8 @@ const Header = () => {
                     fontStyle={"italic"}
                     p={"2px 32px 2px 8px"}
                     _focus={{ border: "none" }}
+                          _dark={{ bg: "#fff2", color: "#fff"}}
+
                     _placeholder={{ color: "#FFF8" }}
                     placeholder={"Search in dogstarcoin..."}
                 />
@@ -30,6 +33,9 @@ const Header = () => {
                     <Icon fontSize={"18px"}>{icons.question}</Icon>
                 </Link>
             </HStack>
+            <Box pos={"fixed"} right={"5px"} top={"45%"}>
+                <ColorModeButton />
+            </Box>
         </HStack>
     );
 };

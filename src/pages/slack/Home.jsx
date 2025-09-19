@@ -16,7 +16,7 @@ const Home = () => {
     }, [token]);
 
     return (
-        <HStack color={"#fff"} w={"100%"} flex={"1 1 0"}>
+        <HStack color={"#ddd"} w={"100%"} _dark={{bg: "#000", color: "#fff"}} flex={"1 1 0"}>
             <SideBar />
             <Main />
             {showThread && <Thread />}

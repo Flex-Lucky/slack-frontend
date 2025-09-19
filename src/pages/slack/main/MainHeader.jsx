@@ -31,7 +31,7 @@ const MainHeader = () => {
     }, [selectedCurChannel]);
 
     return (
-        <HStack w={"100%"} h={"60px"} p={4} justify={"space-between"} color={"#000"}>
+        <HStack w={"100%"} h={"60px"} _dark={{ color: "#fff"}} p={4} justify={"space-between"} color={"#000"}>
             <HStack fontWeight={"bold"} gap={1}>
                 <Text>#</Text>
                 <Text>{name}</Text>

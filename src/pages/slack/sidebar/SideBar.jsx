@@ -50,7 +50,7 @@ const SideBar = () => {
     };
 
     return (
-        <VStack w={"var(--sidebar)"} h={"100%"} overflowY={"auto"} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
+        <VStack w={"var(--sidebar)"} h={"100%"} overflowY={"auto"} _dark={{bg: "#fff2", color: "#fff"}} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
             <VStack w={"full"} gap={8} px={"8px"} justify={"flex-start"} align={"flex-start"}>
                 <HStack
                     w={"100%"}

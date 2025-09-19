@@ -23,7 +23,7 @@ const MainContent = () => {
         <>
             {status == "Messages"
                 ? selectedChMsg.length && (
-                      <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
+                      <VStack w={"100%"} _dark={{ color: "#fff"}} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
                           {selectedChMsg.map((msg, index) => {
                               const curUser = allUsers?.filter((user) => user._id === msg.sender)[0];
                               return <MessageView msg={msg} key={index} curUser={curUser} />;

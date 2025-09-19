@@ -105,6 +105,7 @@ const MessageView = (props) => {
             color={"#000"}
             h={"fit-content"}
             align={"flex-start"}
+            _dark={{ color: "#fff" }}
             onMouseLeave={() => handleLeave()}
             onMouseOver={() => handleShow(msg._id)}
         >
@@ -193,7 +194,7 @@ const MessageView = (props) => {
                         );
                     })}
                 </HStack>
-                <HStack color={"#000"} w={"100%"} justify={"flex-start"} gap={4}>
+                <HStack w={"100%"} justify={"flex-start"} gap={4}>
                     {msg.files.map((file, index) => {
                         return (
                             <HStack key={index} gap={1} wrap={"wrap"}>

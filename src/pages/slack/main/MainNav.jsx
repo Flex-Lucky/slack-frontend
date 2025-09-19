@@ -23,14 +23,14 @@ const MainNav = () => {
     };
 
     return (
-        <HStack w={"100%"} h={"40px"} p={2} color={"#000"} fontSize={"20px"} gap={4} align={"center"}>
+        <HStack w={"100%"} h={"40px"} p={2} _dark={{ color: "#fff"}} color={"#000"} fontSize={"20px"} gap={4} align={"center"}>
             <HStack
                 gap={1}
                 align={"center"}
                 w={"fit-content"}
                 cursor={"pointer"}
                 onClick={() => handleMessages("Messages")}
-                borderBottom={status == "Messages" ? "2px solid black" : "none"}
+                borderBottom={status == "Messages" ? "2px solid 323232" : "none"}
             >
                 <Icon pt={1}>{icons.threads}</Icon>
                 <Text>Messages</Text>

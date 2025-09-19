@@ -2,6 +2,7 @@ import * as Bs from "react-icons/bs";
 import * as Fa from "react-icons/fa";
 import * as Md from "react-icons/md";
 import * as Ti from "react-icons/ti";
+import * as Hi from "react-icons/hi";
 
 const icons = {
     activity: <Fa.FaBell />,
@@ -11,6 +12,7 @@ const icons = {
     caretLeft: <Fa.FaCaretLeft />,
     caretRight: <Fa.FaCaretRight />,
     close: <Fa.FaTimes />,
+    dark: <Hi.HiMoon />,
     delete: <Fa.FaTrash />,
     dms: <Fa.FaComments />,
     down: <Fa.FaChevronDown />,
@@ -22,6 +24,7 @@ const icons = {
     file: <Fa.FaFile />,
     history: <Fa.FaRegClock />,
     home: <Fa.FaHouseUser />,
+    light: <Hi.HiSun />,
     more: <Fa.FaEllipsisV />,
     moreside: <Fa.FaEllipsisH />,
     next: <Fa.FaArrowRight />,
