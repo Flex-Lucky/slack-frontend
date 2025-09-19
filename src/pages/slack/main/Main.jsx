@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect,     useState } from "react";
 
 import { VStack } from "@chakra-ui/react";
 
@@ -22,7 +22,7 @@ const Main = () => {
             } else {
                 let temp = [];
                 selectedCurChannel.members?.forEach((member) => temp.push(member._id));
-                setMessageInfo({ ...messageInfo, receivers: [...temp], channelId: selectedCurChannel._id });
+                setMessageInfo({ ...messageInfo, mentions: [...temp], channelId: selectedCurChannel._id });
             }
         }
     }, [selectedCurChannel]);
@@ -38,7 +38,7 @@ const Main = () => {
             <MainHeader />
             <MainNav status={status} setStatus={setStatus} />
             <MainContent status={status} />
-            <MessageBox />
+            <MessageBox reftype={"main"} />
         </VStack>
     );
 };

@@ -18,6 +18,7 @@ const SocketProvider = (props) => {
 
     const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
+    const [showImage, setShowImage] = useState("");
     const [showThread, setShowThread] = useState("");
     const [allChannels, setAllChannels] = useState([]);
     const [selectedChMsg, setSelectedChMsg] = useState([]);
@@ -26,7 +27,7 @@ const SocketProvider = (props) => {
     const [messageInfo, setMessageInfo] = useState({
         sender: null,
         channelId: null,
-        receivers: [],
+        mentions: [],
         message: "",
         files: [],
         emoticons: [],
@@ -98,7 +99,10 @@ const SocketProvider = (props) => {
                 if (state === status.ON) setSelectedThread(data);
             });
             socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
-                if (state === status.ON) setSelectedChMsg(selectedChMsg.map((msg) => (msg._id == data._id ? data : msg)));
+                if (state === status.ON) {
+                    if (data.parentId !== null) setSelectedThread(selectedThread.map((thread) => (thread._id == data._id ? data : thread)));
+                    else setSelectedChMsg(selectedChMsg.map((msg) => (msg._id == data._id ? data : msg)));
+                }
             });
             socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
                 if (state === status.ON) {
@@ -147,9 +151,11 @@ const SocketProvider = (props) => {
                 allDms,
                 socket,
                 allUsers,
+                showImage,
                 showThread,
                 allChannels,
                 messageInfo,
+                setShowImage,
                 selectedChMsg,
                 setShowThread,
                 setMessageInfo,

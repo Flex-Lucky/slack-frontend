@@ -18,7 +18,7 @@ const Thread = () => {
                     {icons.close}
                 </Icon>
             </HStack>
-            <VStack w={"100%"} maxH={"628px"} overflowY={"auto"} p={"16px 8px"}>
+            <VStack w={"100%"} maxH={"628px"} overflowY={"auto"} p={"16px 8px"} gap={2}>
                 {selectedThread.length > 0 ? (
                     selectedThread.map((thread, index) => {
                         const curUser = allUsers?.filter((user) => user._id === thread.sender)[0];
@@ -28,7 +28,7 @@ const Thread = () => {
                     <></>
                 )}
             </VStack>
-            <MessageBox />
+            <MessageBox reftype={"thread"} />
         </VStack>
     );
 };
