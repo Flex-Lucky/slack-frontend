@@ -12,17 +12,14 @@ const socketEvents = {
     READMESSAGE: "READMESSAGE",
     UPDATEMESSAGE: "UPDATEMESSAGE",
     DELETEMESSAGE: "DELETEMESSAGE",
-
-    PINNED: "PINNED",
-    FILES: "FILES",
 };
 
-const status = {
+const STATUS = {
     ON: "ON",
     FAILED: "fAILED",
     // ON: "ON",
 };
 
-export { status };
+export { STATUS };
 
 export default socketEvents;

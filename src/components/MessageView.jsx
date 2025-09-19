@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import propTypes from "prop-types";
 
-import { HStack, Image, VStack, Wrap, Text, Icon, Flex } from "@chakra-ui/react";
+import { HStack, Image, VStack, Wrap, Text, Icon, Flex, Box } from "@chakra-ui/react";
 import icons from "src/constants/icons";
 
 import Emoticons from "src/components/Emoticons";
@@ -193,12 +193,12 @@ const MessageView = (props) => {
                         );
                     })}
                 </HStack>
-                <HStack color={"#000"} w={"100%"} justify={"flex-start"} gap={2}>
+                <HStack color={"#000"} w={"100%"} justify={"flex-start"} gap={4}>
                     {msg.files.map((file, index) => {
                         return (
-                            <HStack key={index} w={"100%"} gap={2}>
+                            <HStack key={index} gap={1} wrap={"wrap"}>
                                 <Text>{file.originalname}</Text>
-                                <Icon onClick={() => handleShowImage(file)}>{icons.password}</Icon>
+                                <Box onClick={() => handleShowImage(file)}>{icons.password}</Box>
                                 <a href={`${process.env.REACT_APP_BASE_URL}/files/download/${file.filename}`}>{icons.download}</a>
                             </HStack>
                         );

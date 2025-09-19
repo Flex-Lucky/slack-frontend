@@ -7,10 +7,9 @@ import socketEvents from "src/constants/socketEvents";
 import { AuthContext } from "src/contexts/AuthProvider";
 import { SocketContext } from "src/contexts/SocketProvider";
 
-const MainNav = (props) => {
-    const { status, setStatus } = props;
+const MainNav = () => {
     const { auth } = useContext(AuthContext);
-    const { socket } = useContext(SocketContext);
+    const { socket, status, setStatus } = useContext(SocketContext);
 
     const handleMessages = (state) => {
         setStatus(state);
@@ -52,8 +51,8 @@ const MainNav = (props) => {
                 align={"center"}
                 w={"fit-content"}
                 cursor={"pointer"}
-                onClick={() => handlePined("Pin")}
-                borderBottom={status == "Pin" ? "2px solid black" : "none"}
+                onClick={() => handlePined("Pined")}
+                borderBottom={status == "Pined" ? "2px solid black" : "none"}
             >
                 <Icon pt={1}>{icons.pinned}</Icon>
                 <Text>Pin</Text>

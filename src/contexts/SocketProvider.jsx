@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 
 import api from "src/libs/axios";
 import { AuthContext } from "src/contexts/AuthProvider";
-import socketEvents, { status } from "src/constants/socketEvents";
+import socketEvents, { STATUS } from "src/constants/socketEvents";
 import toast from "src/libs/toast";
 
 export const SocketContext = createContext();
@@ -17,11 +17,14 @@ const SocketProvider = (props) => {
         [auth._id]
     );
 
+    const [files, setFiles] = useState([]);
     const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [showImage, setShowImage] = useState("");
+    const [status, setStatus] = useState("Messages");
     const [showThread, setShowThread] = useState("");
     const [allChannels, setAllChannels] = useState([]);
+    const [pinedMessages, setPinedMessages] = useState([]);
     const [selectedChMsg, setSelectedChMsg] = useState([]);
     const [selectedThread, setSelectedThread] = useState([]);
     const [selectedCurChannel, setSelectedCurChannel] = useState({});
@@ -39,7 +42,7 @@ const SocketProvider = (props) => {
     useEffect(() => {
         if (socket) {
             socket.on(socketEvents.CHANGESTATUS, (state, data) => {
-                if (state == status.ON) {
+                if (state == STATUS.ON) {
                     if (data._id == auth._id) setAuth(data);
                     api.get("/user")
                         .then((res) => {
@@ -53,7 +56,7 @@ const SocketProvider = (props) => {
 
             // Channel
             socket.on(socketEvents.READALLCHANNEL, (state, data) => {
-                if (state == status.ON) {
+                if (state == STATUS.ON) {
                     let tmp_channels = [];
                     let tmp_dms = [];
                     data.forEach((curChannel) => {
@@ -65,21 +68,22 @@ const SocketProvider = (props) => {
                 }
             });
             socket.on(socketEvents.CREATECHANNEL, (state) => {
-                if (state == status.ON) toast.success("Channel Created"), socket.emit(socketEvents.READALLCHANNEL);
+                if (state == STATUS.ON) toast.success("Channel Created"), socket.emit(socketEvents.READALLCHANNEL);
             });
             socket.on(socketEvents.READCHANNEL, (state, data) => {
-                if (state == status.ON) setSelectedCurChannel(data);
+                if (state == STATUS.ON) setSelectedCurChannel(data);
             });
             socket.on(socketEvents.UPDATECHANNEL, (state) => {
-                if (state === status.ON) toast.success("Channel Updated"), socket.emit(socketEvents.READALLCHANNEL);
+                if (state === STATUS.ON) toast.success("Channel Updated"), socket.emit(socketEvents.READALLCHANNEL);
             });
             socket.on(socketEvents.DELETECHANNEL, (state) => {
-                if (state === status.ON) toast.success("Channel Deleted"), socket.emit(socketEvents.READALLCHANNEL);
+                if (state === STATUS.ON) toast.success("Channel Deleted"), socket.emit(socketEvents.READALLCHANNEL);
             });
 
             // Message
             socket.on(socketEvents.READALLMESSAGE, (state, data) => {
-                if (state == status.ON) {
+                if (state == STATUS.ON) {
+                    console.log(data);
                     let tmp_threads = [];
                     let tmp_messages = [];
                     data.forEach((curMessage) => {
@@ -91,22 +95,22 @@ const SocketProvider = (props) => {
                 }
             });
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
-                if (state == status.ON) {
+                if (state == STATUS.ON) {
                     if (data.parentId != null) setSelectedThread([...selectedThread, data]);
                     else setSelectedChMsg([...selectedChMsg, data]);
                 }
             });
             socket.on(socketEvents.READMESSAGE, (state, data) => {
-                if (state === status.ON) setSelectedThread(data);
+                if (state === STATUS.ON) setSelectedThread(data);
             });
             socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
-                if (state === status.ON) {
+                if (state === STATUS.ON) {
                     if (data.parentId !== null) setSelectedThread(selectedThread.map((thread) => (thread._id == data._id ? data : thread)));
                     else setSelectedChMsg(selectedChMsg.map((msg) => (msg._id == data._id ? data : msg)));
                 }
             });
             socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
-                if (state === status.ON) {
+                if (state === STATUS.ON) {
                     if (data.parentId == null) setSelectedChMsg(selectedChMsg.filter((msg) => msg._id != data._id));
                     else setSelectedThread(selectedThread.filter((thread) => thread._id != data._id));
                 }
@@ -146,13 +150,24 @@ const SocketProvider = (props) => {
         if (selectedCurChannel._id) socket.emit(socketEvents.READALLMESSAGE, selectedCurChannel._id);
     }, [selectedCurChannel]);
 
+    // useEffect(() => {
+    //     // if (selectedCurChannel._id) {
+    //     //     console.log(auth._id);
+    //     //     if (status == "Messages") socket.emit(socketEvents.READALLMESSAGE, selectedCurChannel._id);
+    //     //     else if (status == "Pinned") /* socket.emit(socketEvents.PINNED, auth._id); */ setPinedMessages(selectedChMsg.filter((msg) =>msg.isPinned.length != 0))
+    //     //     else if (status == "Files") /* socket.emit(socketEvents.FILES, selectedCurChannel._id); */
+    //     // }
+    // }, [status, selectedCurChannel]);
+
     return (
         <SocketContext.Provider
             value={{
                 allDms,
                 socket,
+                status,
                 allUsers,
                 showImage,
+                setStatus,
                 showThread,
                 allChannels,
                 messageInfo,

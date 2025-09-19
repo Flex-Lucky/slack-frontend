@@ -13,8 +13,6 @@ const Main = () => {
     const { auth } = useContext(AuthContext);
     const { selectedCurChannel, selectedChMsg, showThread, messageInfo, setMessageInfo } = useContext(SocketContext);
 
-    const [status, setStatus] = useState("Messages");
-
     useEffect(() => {
         if (selectedCurChannel) {
             if (selectedCurChannel.isDm == false) {
@@ -36,8 +34,8 @@ const Main = () => {
     return (
         <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}>
             <MainHeader />
-            <MainNav status={status} setStatus={setStatus} />
-            <MainContent status={status} />
+            <MainNav />
+            <MainContent />
             <MessageBox reftype={"main"} />
         </VStack>
     );
