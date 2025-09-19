@@ -195,7 +195,7 @@ const MessageBox = (props) => {
                 </Icon>
             </HStack>
 
-            {showImage && showImage != "dbImage" && <ShowImage path={path} />}
+            {showImage != "dbImage" && <ShowImage path={path} />}
 
             {position && filteredOptions.length > 0 && (
                 <List

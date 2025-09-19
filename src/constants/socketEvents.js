@@ -16,7 +16,7 @@ const socketEvents = {
 
 const STATUS = {
     ON: "ON",
-    FAILED: "fAILED",
+    FAILED: "FAILED",
     // ON: "ON",
 };
 

@@ -8,17 +8,19 @@ import { SocketContext } from "src/contexts/SocketProvider";
 const ShowImage = (props) => {
     const { showImage, setShowImage } = useContext(SocketContext);
 
+    console.log(showImage);
+
     const handleClose = () => {
         setShowImage("");
     };
 
     return (
-        <Modal isOpen={showImage != "" ? true: false} isCentered>
+        <Modal isOpen={showImage ? true : false} isCentered>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
                     <HStack w={"100%"} justifyContent={"space-between"}>
-                        <Text>{showImage.name}</Text>
+                        <Text>{typeof showImage == "string" ? showImage.name : ""}</Text>
                         <Icon
                             pt={0.5}
                             pl={0.5}

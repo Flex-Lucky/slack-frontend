@@ -206,7 +206,7 @@ const MessageView = (props) => {
                     })}
                 </HStack>
             </VStack>
-            {showImage && <ShowImage path={path} />}
+            {showImage == "dbImage" && <ShowImage path={path} />}
         </HStack>
     );
 };

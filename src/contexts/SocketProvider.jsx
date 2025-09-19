@@ -17,14 +17,12 @@ const SocketProvider = (props) => {
         [auth._id]
     );
 
-    const [files, setFiles] = useState([]);
     const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [showImage, setShowImage] = useState("");
     const [status, setStatus] = useState("Messages");
     const [showThread, setShowThread] = useState("");
     const [allChannels, setAllChannels] = useState([]);
-    const [pinedMessages, setPinedMessages] = useState([]);
     const [selectedChMsg, setSelectedChMsg] = useState([]);
     const [selectedThread, setSelectedThread] = useState([]);
     const [selectedCurChannel, setSelectedCurChannel] = useState({});
@@ -67,8 +65,10 @@ const SocketProvider = (props) => {
                     setAllChannels(tmp_channels);
                 }
             });
-            socket.on(socketEvents.CREATECHANNEL, (state) => {
+            socket.on(socketEvents.CREATECHANNEL, (state, data) => {
+                console.log(state, data);
                 if (state == STATUS.ON) toast.success("Channel Created"), socket.emit(socketEvents.READALLCHANNEL);
+                else if (state == STATUS.FAILED && typeof data == "number") toast.error("Channel Already Exists");
             });
             socket.on(socketEvents.READCHANNEL, (state, data) => {
                 if (state == STATUS.ON) setSelectedCurChannel(data);
