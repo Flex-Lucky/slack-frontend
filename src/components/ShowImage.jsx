@@ -8,8 +8,6 @@ import { SocketContext } from "src/contexts/SocketProvider";
 const ShowImage = (props) => {
     const { showImage, setShowImage } = useContext(SocketContext);
 
-    console.log(showImage);
-
     const handleClose = () => {
         setShowImage("");
     };

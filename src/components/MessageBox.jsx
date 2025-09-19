@@ -2,10 +2,11 @@ import React, { useContext, useRef, useState } from "react";
 import propTypes from "prop-types";
 import toast from "src/libs/toast";
 
-import { Menu, Text, Icon, List, Input, VStack, HStack, Textarea, ListItem, MenuItem, MenuList, MenuButton } from "@chakra-ui/react";
+import { Flex, Menu, Text, Icon, List, Input, VStack, HStack, Textarea, ListItem, MenuItem, MenuList, MenuButton } from "@chakra-ui/react";
 import icons from "src/constants/icons";
 
 import upload from "src/api/upload";
+import Emoticons from "src/components/Emoticons";
 import ShowImage from "src/components/ShowImage";
 import BadgeAvatar from "src/components/BadgeAvatar";
 import socketEvents from "src/constants/socketEvents";
@@ -27,6 +28,7 @@ const MessageBox = (props) => {
     const [path, setPath] = useState("");
     const [files, setFiles] = useState([]);
     const [message, setMessage] = useState("");
+    const [showEmo, setShowEmo] = useState(false);
     const [mentionNames, setMentionNames] = useState([]);
 
     const [filteredOptions, setFilteredOptions] = useState([]);
@@ -38,7 +40,8 @@ const MessageBox = (props) => {
     const handleInputChange = (e) => {
         let value = e.target.value;
         if (value == "") {
-            setMessageInfo({ ...messageInfo, mentions: [] });
+            console.log("empty");
+            setMessageInfo({ ...messageInfo, mentions: [], message: "", emoticons: [] });
             setMentionNames([]);
             setFilteredOptions([]);
         }
@@ -95,23 +98,55 @@ const MessageBox = (props) => {
     };
 
     const handleSend = () => {
-        setFiles([]);
-        setMessage("");
-        setMentionNames([]);
-        setMessageInfo({ ...messageInfo, message: "", mentions: [], files: [] });
-
         const formData = new FormData();
-        console.log(files);
         files.forEach((file) => {
             formData.append("files", file);
         });
         upload(formData)
             .then((res) => {
                 socket.emit(socketEvents.CREATEMESSAGE, { ...messageInfo, files: res.payload });
+                setFiles([]);
+                setMessage("");
+                setMentionNames([]);
+                setMessageInfo({ ...messageInfo, message: "", mentions: [], files: [], emoticons: [] });
             })
             .catch((err) => {
-                toast.error("Upload Failed");
+                toast.error("Send Failed");
             });
+    };
+
+    const handleShowEmoticon = () => {
+        setShowEmo(!showEmo);
+    };
+
+    const handleEmoticon = (emoticon) => {
+        let temp = [];
+        if (messageInfo.emoticons.length) {
+            temp = messageInfo.emoticons.find((emo) => emo.code === emoticon)
+                ? messageInfo.emoticons.map((emo) => {
+                      if (emo.code === emoticon) {
+                          return {
+                              ...emo,
+                              recommenders: emo.recommenders.includes(auth._id)
+                                  ? emo.recommenders.filter((recommender) => recommender != auth._id)
+                                  : [...emo.recommenders, auth._id],
+                          };
+                      } else {
+                          return emo;
+                      }
+                  })
+                : [...messageInfo.emoticons, { recommenders: [auth._id], code: emoticon }];
+        } else {
+            temp = [
+                {
+                    recommenders: [auth._id],
+                    code: emoticon,
+                },
+            ];
+        }
+        setMessageInfo({ ...messageInfo, emoticons: temp });
+        setShowEmo(false);
+        setMessage(message + `${emoticon}`);
     };
 
     return (
@@ -138,12 +173,12 @@ const MessageBox = (props) => {
                 ref={reftype == "main" ? mainRef : threadRef}
             />
             <HStack
-                w={"100%"}
-                justify={"space-between"}
-                fontSize={"22px"}
-                bg={"#0001"}
                 p={2}
                 gap={4}
+                w={"100%"}
+                bg={"#0001"}
+                fontSize={"22px"}
+                justify={"space-between"}
                 _dark={{ bg: "#fff2", color: "#fff" }}
             >
                 <HStack gap={4}>
@@ -176,7 +211,26 @@ const MessageBox = (props) => {
                             })}
                         </MenuList>
                     </Menu>
-                    <Icon>{icons.emoticon}</Icon>
+                    <HStack position={"relative"}>
+                        <Icon onClick={handleShowEmoticon}>{icons.emoticon}</Icon>
+                        <Flex
+                            left={0}
+                            p={"8px"}
+                            zIndex={10}
+                            bg={"#fff"}
+                            minW={"200px"}
+                            maxH={"160px"}
+                            bottom={"25px"}
+                            align={"center"}
+                            pos={"absolute"}
+                            justify={"center"}
+                            border={"1px solid #ccc"}
+                            display={showEmo ? "flex" : "none"}
+                            boxShadow={"0px 0px 5px 0px #323232"}
+                        >
+                            <Emoticons handleRecommend={handleEmoticon} msg={messageInfo} />
+                        </Flex>
+                    </HStack>
                     <Icon>{icons.camera}</Icon>
                     <Icon>{icons.voice}</Icon>
                 </HStack>
