@@ -14,12 +14,22 @@ const SideBar = () => {
     const { auth } = useContext(AuthContext);
     const { allChannels, socket, allDms, allUsers, selectedCurChannel } = useContext(SocketContext);
 
+    const [showDm, setShowDm] = useState(true);
+    const [showChannel, setShowChannel] = useState(true);
     const [showDMModal, setShowDMModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState("");
     const [selectedChannel, setSelectedChannel] = useState({});
 
     const handleSelectChannel = (id) => {
         socket.emit(socketEvents.READCHANNEL, id);
+    };
+
+    const handleShowChannel = () => {
+        setShowChannel(!showChannel);
+    };
+
+    const handleShowDm = () => {
+        setShowDm(!showDm);
     };
 
     const handleEdit = (id) => {
@@ -83,14 +93,15 @@ const SideBar = () => {
                         rounded={4}
                         p={"2px 8px"}
                         cursor={"pointer"}
+                        onClick={handleShowChannel}
                         _hover={{ bg: "#fff", color: "var(--primary)" }}
                     >
                         <Icon fontSize={"20px"} pt={"3px"}>
-                            {icons.caretDown}
+                            {showChannel ? icons.caretDown : icons.caretRight}
                         </Icon>
                         <Text>Channels</Text>
                     </HStack>
-                    <VStack w={"100%"} gap={1}>
+                    <VStack w={"100%"} gap={1} display={showChannel ? "flex" : "none"}>
                         {allChannels &&
                             allChannels.map((channel, index) => {
                                 return (
@@ -142,14 +153,15 @@ const SideBar = () => {
                         rounded={4}
                         p={"2px 8px"}
                         cursor={"pointer"}
+                        onClick={handleShowDm}
                         _hover={{ bg: "#fff", color: "var(--primary)" }}
                     >
                         <Icon fontSize={"20px"} pt={"3px"}>
-                            {icons.caretDown}
+                            {showDm ? icons.caretDown : icons.caretRight}
                         </Icon>
                         <Text>Direct Messages</Text>
                     </HStack>
-                    <VStack w={"100%"} gap={1}>
+                    <VStack w={"100%"} gap={1} display={showDm ? "flex" : "none"}>
                         {allDms &&
                             allDms.map((dm) => {
                                 return dm.members.map((member) => {
