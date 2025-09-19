@@ -18,6 +18,7 @@ const SignIn = () => {
     });
 
     const handleChange = (e) => {
+        console.log(e.code)
         setData({ ...data, [e.target.name]: e.target.value });
         if (e.code == "Enter") handleSignIn();
     };

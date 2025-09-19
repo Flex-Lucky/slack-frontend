@@ -5,6 +5,7 @@ import { io } from "socket.io-client";
 import api from "src/libs/axios";
 import { AuthContext } from "src/contexts/AuthProvider";
 import socketEvents, { status } from "src/constants/socketEvents";
+import toast from "src/libs/toast";
 
 export const SocketContext = createContext();
 
@@ -64,16 +65,16 @@ const SocketProvider = (props) => {
                 }
             });
             socket.on(socketEvents.CREATECHANNEL, (state) => {
-                if (state == status.ON) socket.emit(socketEvents.READALLCHANNEL);
+                if (state == status.ON) toast.success("Channel Created"), socket.emit(socketEvents.READALLCHANNEL);
             });
             socket.on(socketEvents.READCHANNEL, (state, data) => {
                 if (state == status.ON) setSelectedCurChannel(data);
             });
             socket.on(socketEvents.UPDATECHANNEL, (state) => {
-                if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
+                if (state === status.ON) toast.success("Channel Updated"), socket.emit(socketEvents.READALLCHANNEL);
             });
             socket.on(socketEvents.DELETECHANNEL, (state) => {
-                if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
+                if (state === status.ON) toast.success("Channel Deleted"), socket.emit(socketEvents.READALLCHANNEL);
             });
 
             // Message
