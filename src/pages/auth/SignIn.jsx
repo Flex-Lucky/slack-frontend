@@ -1,12 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { HStack, VStack, Box, Input, Text, Checkbox, Button, Icon } from "@chakra-ui/react";
 import icons from "src/constants/icons";
 
 import { AuthContext } from "src/contexts/AuthProvider";
+import { signInValidation } from "src/libs/validation";
 
 const SignIn = () => {
+    const buttonRef = useRef(null);
     const { signin } = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
@@ -17,6 +19,7 @@ const SignIn = () => {
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
+        if (e.code == "Enter") handleSignIn();
     };
 
     const handleShowPassword = () => {
@@ -24,6 +27,8 @@ const SignIn = () => {
     };
 
     const handleSignIn = () => {
+        const isValid = signInValidation(data);
+        if (isValid != true) return;
         signin(data);
     };
 
@@ -61,7 +66,7 @@ const SignIn = () => {
                 >
                     <Input
                         pr={"32px"}
-                        name="password"
+                        name={"password"}
                         onChange={handleChange}
                         type={show ? "text" : "password"}
                         _placeholder={{ color: "#fff8" }}

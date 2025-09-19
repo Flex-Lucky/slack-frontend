@@ -5,9 +5,11 @@ import { HStack, VStack, Input, Text, Button, Icon, Avatar } from "@chakra-ui/re
 import icons from "src/constants/icons";
 
 import { AuthContext } from "src/contexts/AuthProvider";
+import { signUpValidation } from "src/libs/validation";
 
 const SignUp = () => {
-    const inputRef = useRef(null);
+    const fileRef = useRef(null);
+    const buttonRef = useRef(null);
     const { signup } = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
@@ -34,6 +36,7 @@ const SignUp = () => {
         } else {
             setData({ ...data, userInfo: { ...data.userInfo, [e.target.name]: e.target.value } });
         }
+        if (e.code == "Enter") handleSignUp();
     };
 
     const handleShowPassword = () => {
@@ -41,6 +44,13 @@ const SignUp = () => {
     };
 
     const handleSignUp = () => {
+        const isValid = signUpValidation({
+            confirm: data.confirm,
+            email: data.userInfo.email,
+            username: data.userInfo.username,
+            password: data.userInfo.password,
+        });
+        if (isValid != true) return;
         const formData = new FormData();
         formData.append("avatar", file);
         for (const key in data.userInfo) {
@@ -53,10 +63,10 @@ const SignUp = () => {
         <VStack w={"100%"} h={"100vh"} justify={"center"} align={"center"} gap={6} bg={"var(--primary)"} color={"white"}>
             <Avatar
                 size="xl"
-                onClick={() => inputRef.current.click()}
+                onClick={() => fileRef.current.click()}
                 src={data.userInfo.avatar ? data.userInfo.avatar : `${process.env.REACT_APP_BASE_URL}/avatar/default.gif`}
             />
-            <Input ref={inputRef} type="file" name="avatar" onChange={handleChange} hidden />
+            <Input ref={fileRef} type="file" name="avatar" onChange={handleChange} hidden />
             <Text fontSize={"45px"} fontWeight={"bold"}>
                 SignUp
             </Text>
@@ -129,7 +139,7 @@ const SignUp = () => {
                 >
                     <Input
                         pr={"32px"}
-                        name="confirm"
+                        name={"confirm"}
                         onChange={handleChange}
                         type={show ? "text" : "password"}
                         _placeholder={{ color: "#fff8" }}
