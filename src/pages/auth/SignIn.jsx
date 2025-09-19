@@ -18,9 +18,7 @@ const SignIn = () => {
     });
 
     const handleChange = (e) => {
-        console.log(e.code)
         setData({ ...data, [e.target.name]: e.target.value });
-        if (e.code == "Enter") handleSignIn();
     };
 
     const handleShowPassword = () => {
@@ -31,6 +29,10 @@ const SignIn = () => {
         const isValid = signInValidation(data);
         if (isValid != true) return;
         signin(data);
+    };
+
+    const handleEnter = (e) => {
+        if (e.code == "Enter") handleSignIn();
     };
 
     return (
@@ -68,6 +70,7 @@ const SignIn = () => {
                     <Input
                         pr={"32px"}
                         name={"password"}
+                        onKeyUp={handleEnter}
                         onChange={handleChange}
                         type={show ? "text" : "password"}
                         _placeholder={{ color: "#fff8" }}

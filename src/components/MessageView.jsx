@@ -20,11 +20,14 @@ const MessageView = (props) => {
     const [show, setShow] = useState("");
     const [view, setView] = useState("");
     const [path, setPath] = useState("");
-    const [shortDate, setShortDate] = useState("");
+    const [shortDate, setShortDate] = useState({
+        date: "",
+        time: "",
+    });
 
     useEffect(() => {
         if (msg._id) {
-            shortDateFormat(msg.createdAt);
+            setShortDate(shortDateFormat(msg.createdAt));
         }
     }, [msg]);
 
@@ -106,12 +109,12 @@ const MessageView = (props) => {
             onMouseOver={() => handleShow(msg._id)}
         >
             <Image w={"40px"} rounded={8} h={"40px"} src={`${process.env.REACT_APP_BASE_URL}/avatar/${curUser.avatar}`} />
-            <VStack flex={"1 1 0"} w={"calc(100% - 60px)"}  h={"100%"} gap={2}>
-                <VStack h={"40px"} w={"100%"} >
+            <VStack flex={"1 1 0"} w={"calc(100% - 60px)"} h={"100%"} gap={2}>
+                <VStack h={"40px"} w={"100%"}>
                     <HStack w={"100%"} justify={"space-between"} pos={"relative"}>
-                        <HStack>
+                        <HStack gap={6}>
                             <Text>{curUser.username}</Text>
-                            <Text>{msg.createdAt}</Text>
+                            <Text>{shortDate.date + " " + shortDate.time}</Text>
                         </HStack>
                         <HStack
                             p={2}
@@ -146,12 +149,7 @@ const MessageView = (props) => {
                                     <Emoticons handleRecommend={handleEmoticon} msg={msg} />
                                 </Flex>
                             </HStack>
-                            <Icon
-                                cursor={"pointer"}
-                                onClick={() => handleThread(msg._id)}
-                                display={msg.parentId ? "none" : "flex"}
-                                // display={selectedCurChannel.isDm == false ? "flex" : "none"}
-                            >
+                            <Icon cursor={"pointer"} onClick={() => handleThread(msg._id)} display={msg.parentId ? "none" : "flex"}>
                                 {icons.threads}
                             </Icon>
                             <HStack display={curUser._id == auth._id ? "flex" : "none"}>

@@ -51,7 +51,6 @@ const MessageBox = (props) => {
             mentionNames.forEach((mention) => {
                 if (value.includes(mention)) value = value.replace(mention, " ");
             });
-            console.log("%csrccomponentsMessageBox.jsx:72 value", "color: #007acc;", value);
             setMessageInfo({ ...messageInfo, message: value, parentId: reftype == "main" ? null : showThread });
         }
         setMessage(e.target.value);

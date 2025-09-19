@@ -9,7 +9,6 @@ import { signUpValidation } from "src/libs/validation";
 
 const SignUp = () => {
     const fileRef = useRef(null);
-    const buttonRef = useRef(null);
     const { signup } = useContext(AuthContext);
 
     const [show, setShow] = useState(false);
@@ -57,6 +56,10 @@ const SignUp = () => {
             formData.append(key, data.userInfo[key]);
         }
         signup(formData);
+    };
+
+    const handleEnter = (e) => {
+        if (e.code == "Enter") handleSignUp();
     };
 
     return (
@@ -140,6 +143,7 @@ const SignUp = () => {
                     <Input
                         pr={"32px"}
                         name={"confirm"}
+                        onKeyUp={handleEnter}
                         onChange={handleChange}
                         type={show ? "text" : "password"}
                         _placeholder={{ color: "#fff8" }}
