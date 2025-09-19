@@ -7,7 +7,15 @@ const ColorModeButton = () => {
     const { colorMode } = useContext(ColorModeContext);
     const { toggleColorMode } = useColorMode();
     return (
-        <Button onClick={toggleColorMode} size="50px" _focus={{outline: "none"}} _dark={{bg:"#fff"}}>
+        <Button
+            size="50px"
+            bg={"none"}
+            _hover={{ bg: "none" }}
+            _active={{ bg: "none" }}
+            onClick={toggleColorMode}
+            _focus={{ outline: "none" }}
+            transition={"all 0.3s ease"}
+        >
             {colorMode == "light" ? icons.dark : icons.light}
         </Button>
     );

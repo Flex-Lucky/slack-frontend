@@ -21,61 +21,63 @@ const MainContent = () => {
 
     return (
         <>
-            {status == "Messages"
-                ? selectedChMsg.length && (
-                      <VStack w={"100%"} _dark={{ color: "#fff"}} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
-                          {selectedChMsg.map((msg, index) => {
-                              const curUser = allUsers?.filter((user) => user._id === msg.sender)[0];
-                              return <MessageView msg={msg} key={index} curUser={curUser} />;
-                          })}
-                      </VStack>
-                  )
-                : status == "Files"
-                ? files.length && (
-                      <HStack
-                          p={4}
-                          gap={4}
-                          w={"100%"}
-                          wrap={"wrap"}
-                          flex={"1 1 0"}
-                          overflow={"auto"}
-                          align={"flex-start"}
-                          minH={"calc(100% - 280px)"}
-                      >
-                          <HStack wrap={"wrap"} justify={"center"} gap={4}>
-                              {files.map((file) => {
-                                  return file.map((f, i) => {
-                                      return (
-                                          <Flex flexWrap={"wrap"} key={i} w={"100px"} minW={"100px"}>
-                                              <Image
-                                                  src={`${process.env.REACT_APP_BASE_URL}/files/${f.filename}`}
-                                                  w={"100%"}
-                                                  h={"100px"}
-                                                  rounded={8}
-                                              />
-                                              <HStack fontSize={"14px"} w={"100%"} color={"#000"} justifyContent={"space-between"}>
-                                                  <Text>{f.originalname}</Text>
-                                                  <a href={`${process.env.REACT_APP_BASE_URL}/files/donwload/${f.filename}`}>
-                                                      {icons.download}
-                                                  </a>
-                                              </HStack>
-                                          </Flex>
-                                      );
-                                  });
-                              })}
-                          </HStack>
-                      </HStack>
-                  )
-                : status == "Pined"
-                ? pins.length && (
-                      <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
-                          {pins.map((pinMsg, index) => {
-                              const curUser = allUsers?.filter((user) => user._id == pinMsg.sender)[0];
-                              return <MessageView msg={pinMsg} key={index} curUser={curUser} />;
-                          })}
-                      </VStack>
-                  )
-                : null}
+            {status == "Messages" ? (
+                selectedChMsg.length ? (
+                    <VStack w={"100%"} _dark={{ color: "#fff" }} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
+                        {selectedChMsg.map((msg, index) => {
+                            const curUser = allUsers?.filter((user) => user._id === msg.sender)[0];
+                            return <MessageView msg={msg} key={index} curUser={curUser} />;
+                        })}
+                    </VStack>
+                ) : (
+                    <VStack w={"100%"} _dark={{ color: "#fff" }} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}></VStack>
+                )
+            ) : status == "Files" ? (
+                files.length && (
+                    <HStack
+                        p={4}
+                        gap={4}
+                        w={"100%"}
+                        wrap={"wrap"}
+                        flex={"1 1 0"}
+                        overflow={"auto"}
+                        align={"flex-start"}
+                        minH={"calc(100% - 280px)"}
+                    >
+                        <HStack wrap={"wrap"} justify={"center"} gap={4}>
+                            {files.map((file) => {
+                                return file.map((f, i) => {
+                                    return (
+                                        <Flex flexWrap={"wrap"} key={i} w={"100px"} minW={"100px"}>
+                                            <Image
+                                                src={`${process.env.REACT_APP_BASE_URL}/files/${f.filename}`}
+                                                w={"100%"}
+                                                h={"100px"}
+                                                rounded={8}
+                                            />
+                                            <HStack fontSize={"14px"} w={"100%"} color={"#000"} justifyContent={"space-between"}>
+                                                <Text>{f.originalname}</Text>
+                                                <a href={`${process.env.REACT_APP_BASE_URL}/files/donwload/${f.filename}`}>
+                                                    {icons.download}
+                                                </a>
+                                            </HStack>
+                                        </Flex>
+                                    );
+                                });
+                            })}
+                        </HStack>
+                    </HStack>
+                )
+            ) : status == "Pined" ? (
+                pins.length && (
+                    <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
+                        {pins.map((pinMsg, index) => {
+                            const curUser = allUsers?.filter((user) => user._id == pinMsg.sender)[0];
+                            return <MessageView msg={pinMsg} key={index} curUser={curUser} />;
+                        })}
+                    </VStack>
+                )
+            ) : null}
         </>
         // <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4} >
         //     {status == "Messages"

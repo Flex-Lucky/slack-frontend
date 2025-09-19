@@ -114,7 +114,7 @@ const MessageView = (props) => {
                 <VStack h={"40px"} w={"100%"}>
                     <HStack w={"100%"} justify={"space-between"} pos={"relative"}>
                         <HStack gap={6}>
-                            <Text>{curUser.username}</Text>
+                            <Text color={"var(--primary)"} _dark={{color: "#0f0"}}>{curUser.username}</Text>
                             <Text>{shortDate.date + " " + shortDate.time}</Text>
                         </HStack>
                         <HStack
@@ -167,7 +167,7 @@ const MessageView = (props) => {
                         {allUsers.map((user, index) => {
                             if (msg.mentions.includes(user._id)) {
                                 return (
-                                    <Text key={index} bg={"#ddd"}>
+                                    <Text key={index} bg={"#ddd"} rounded={8} px={2} _dark={{ bg: "#fff2", color: "#00fff0"}}>
                                         @{user.username}
                                     </Text>
                                 );
@@ -197,7 +197,7 @@ const MessageView = (props) => {
                 <HStack w={"100%"} justify={"flex-start"} gap={4}>
                     {msg.files.map((file, index) => {
                         return (
-                            <HStack key={index} gap={1} wrap={"wrap"}>
+                            <HStack key={index} gap={1} wrap={"wrap"}  _dark={{ color: "#fff"}}>
                                 <Text>{file.originalname}</Text>
                                 <Box onClick={() => handleShowImage(file)}>{icons.password}</Box>
                                 <a href={`${process.env.REACT_APP_BASE_URL}/files/download/${file.filename}`}>{icons.download}</a>

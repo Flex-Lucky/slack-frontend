@@ -109,8 +109,8 @@ const MessageBox = (props) => {
     };
 
     return (
-        <VStack w={"95%"} h={"180px"} color={"#000"}  _dark={{ bg: "#fff2", color: "#fff"}} justify={"center"} align={"center"}>
-            <HStack width={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4}>
+        <VStack w={"95%"} h={"180px"} color={"#000"}  justify={"center"} align={"center"}>
+            <HStack width={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4} _dark={{ bg: "#fff2", color: "#fff"}}>
                 <Icon>{icons.typeBold}</Icon>
                 <Icon>{icons.typeStrikeThrough}</Icon>
                 <Icon>{icons.typeItalic}</Icon>
@@ -127,10 +127,11 @@ const MessageBox = (props) => {
                 onKeyDown={handleEnter}
                 onChange={handleInputChange}
                 value={message ? message : ""}
+                _dark={{ bg: "#fff5", color: "#fff"}}
                 _focus={{ border: "0.5px solid #0004" }}
                 ref={reftype == "main" ? mainRef : threadRef}
             />
-            <HStack w={"100%"} justify={"space-between"} fontSize={"22px"} bg={"#0001"} p={2} gap={4}>
+            <HStack w={"100%"} justify={"space-between"} fontSize={"22px"} bg={"#0001"} p={2} gap={4} _dark={{ bg: "#fff2", color: "#fff"}}>
                 <HStack gap={4}>
                     <Icon onClick={() => fileRef.current.click()}>{icons.plus}</Icon>
                     <Input ref={fileRef} type={"file"} onChange={handleFile} hidden />

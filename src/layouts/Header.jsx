@@ -24,18 +24,17 @@ const Header = () => {
                     fontStyle={"italic"}
                     p={"2px 32px 2px 8px"}
                     _focus={{ border: "none" }}
-                          _dark={{ bg: "#fff2", color: "#fff"}}
-
                     _placeholder={{ color: "#FFF8" }}
                     placeholder={"Search in dogstarcoin..."}
+                    _dark={{ bg: "#fff2", color: "#fff" }}
                 />
-                <Link to={"/service/icons"} target="_blank">
-                    <Icon fontSize={"18px"}>{icons.question}</Icon>
-                </Link>
+                <HStack gap={2}>
+                    <ColorModeButton />
+                    <Link to={"/service/icons"} target="_blank">
+                        <Icon fontSize={"18px"}>{icons.question}</Icon>
+                    </Link>
+                </HStack>
             </HStack>
-            <Box pos={"fixed"} right={"5px"} top={"45%"}>
-                <ColorModeButton />
-            </Box>
         </HStack>
     );
 };
