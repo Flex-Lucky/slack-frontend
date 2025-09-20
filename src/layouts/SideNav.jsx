@@ -61,7 +61,7 @@ const SideNav = () => {
                         <PopoverArrow />
                         <PopoverCloseButton />
                         <PopoverBody>
-                            <VStack w={"120px"} h={"fit-content"} color={"#000"} p={2}>
+                            <VStack w={"120px"} h={"fit-content"} color={"#000"} p={2}  _dark={{ bg: "#fff2", color: "#fff" }}>
                                 {statusList.map((item, index) => {
                                     if (item.status !== auth.status) {
                                         return (

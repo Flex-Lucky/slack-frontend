@@ -11,7 +11,7 @@ const Thread = () => {
     const { allUsers, setShowThread, selectedThread } = useContext(SocketContext);
 
     return (
-        <VStack w={"34%"} h={"100%"} bg={"#fff"} color={"#000"} rounded={"0px 8px 8px 0px"} boxShadow={"-3px 0px 0px 0px #ccc"}>
+        <VStack w={"34%"} h={"100%"} bg={"#fff"} color={"#000"} rounded={"0px 8px 8px 0px"} boxShadow={"-3px 0px 0px 0px #ccc"}  _dark={{ bg: "#fff2", color: "#fff" }}>
             <HStack w={"100%"} justify={"space-between"} p={"8px 16px"} fontSize={"20px"} h={"70px"}>
                 <Text>Thread</Text>
                 <Icon cursor={"pointer"} onClick={() => setShowThread("")}>

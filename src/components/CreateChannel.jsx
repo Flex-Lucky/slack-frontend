@@ -72,16 +72,16 @@ const CreateChannel = (props) => {
     return (
         <Modal isOpen={open} isCentered>
             <ModalOverlay />
-            <ModalContent bg={"var(--primary)"} color={"#FFF"}>
+            <ModalContent _dark={{ bg: "#fff2", color: "#fff" }} bg={"var(--primary)"} color={"#FFF"}>
                 <ModalHeader>{open == "create" ? "Create Channel" : "Edit Channel"}</ModalHeader>
                 <ModalBody>
                     <Input
                         p={"4px 8px"}
+                        onChange={handleChange}
+                        value={curC.name ? curC.name : ""}
                         _focus={{ border: "1px solid #fff6" }}
                         placeholder={"Insert ChannelName Ex: myChannel"}
                         _placeholder={{ fontStyle: "italic", color: "#fff6" }}
-                        value={curC.name ? curC.name : ""}
-                        onChange={handleChange}
                     />
                     <VStack maxH={"500px"} minH={"400px"} overflowY={"auto"} p={4} gap={2}>
                         {allUsers &&

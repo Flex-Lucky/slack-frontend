@@ -79,13 +79,15 @@ const MainContent = (props) => {
                     </HStack>
                 )
             ) : status == "Pined" ? (
-                pins.length && (
+                pins.length ? (
                     <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4} onScroll={props.handleScroll}>
                         {pins.map((pinMsg, index) => {
                             const curUser = allUsers?.filter((user) => user._id == pinMsg.sender)[0];
                             return <MessageView msg={pinMsg} key={index} curUser={curUser} />;
                         })}
                     </VStack>
+                ) : (
+                    <VStack w={"100%"} _dark={{ color: "#fff" }} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}></VStack>
                 )
             ) : null}
         </>

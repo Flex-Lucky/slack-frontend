@@ -56,7 +56,7 @@ const CreateDM = (props) => {
     return (
         <Modal isOpen={props.open} isCentered>
             <ModalOverlay />
-            <ModalContent bg={"var(--primary)"} color={"#FFF"}>
+            <ModalContent bg={"var(--primary)"} color={"#FFF"} _dark={{ bg: "#fff2", color: "#fff" }}>
                 {/* <ModalCloseButton /> */}
                 <ModalHeader>Invite People</ModalHeader>
                 <ModalBody>
